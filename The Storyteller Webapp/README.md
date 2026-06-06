@@ -1,5 +1,5 @@
 ---
-title: Picture to Story Generator 
+title: Picture to Story Generator
 emoji: 📖
 colorFrom: yellow
 colorTo: red
@@ -10,53 +10,92 @@ pinned: false
 license: mit
 ---
 
-<a href="https://huggingface.co/spaces/sssingh/pic-to-story"  target="_blank"><img src="https://img.shields.io/badge/click_here_to_open_gradio_app-orange?style=for-the-badge&logo=dependabot"/></a>
+# The Storyteller
+***A Local LLM-Based App to Generate Stories from Pictures***
 
-
-# The Storyteller  
-***A Large Language Model Based App to Generate Stories from Pictures***
-
-<img src="https://github.com/sssingh/pic-to-story/blob/main/assets/title.jpg?raw=true" width="1000" height="350"/><br><br> 
-
->This application employs a Image2Text model hosted by Huggingface, which is a modified adaptation of the Bootstrapping Language-Image Pre-training for Unified Vision-Language Understanding and Generation (BLIP) model. First, it generates a descriptive caption for an image. Then, it utilizes this caption to construct a prompt, which is subsequently used with OpenAI's GPT-3.5 to create engaging stories based on the provided picture. 
+> This application runs entirely locally using [Ollama](https://ollama.com). It uses a vision-capable model (`llava`) to generate a vivid description of an uploaded image, then passes that description to a text model (`llama3`) to craft an engaging story in your chosen genre and writing style — no API keys or internet connection required after setup.
 
 ## App Flow
 
-<img src="https://github.com/sssingh/pic-to-story/blob/main/assets/app-design.png?raw=true" width="1000" height="450"/><br><br> 
+1. **Image → Caption** — The image is encoded and sent to `llava` (via Ollama) which generates a detailed description covering subjects, setting, mood, and colors.
+2. **Caption → Story** — The caption is used to construct a prompt that is passed to `llama3`, which produces a story matching your selected genre, writing style, length, and creativity level.
 
-BLIP Image2Text model details can be found [here](https://huggingface.co/Sof22/image-caption-large-copy)
+## Prerequisites
 
-## App Details 
+- [Ollama](https://ollama.com) installed and running locally (`http://localhost:11434`)
+- The required models pulled:
+  ```bash
+  ollama pull llava
+  ollama pull llama3
+  ```
 
-* It's important to note that this sample demonstration app is hosted on the free tiers of Huggingface Spaces, which means it is functional but may exhibit slower performance.
-* Additionally, when using the app for the first time or after an extended period (more than 1 hour), you might encounter an "Internal Error" message or receive a story unrelated to the provided image. This is a normal occurrence during the model loading process. Please wait a few seconds and try again; it should function as intended.
-* Please be aware that due to cost and resource constraints, the app currently has a maximum story length limit of 200 words per request.
+## Installation
 
-App UI is shown below:
+```bash
+pip install -r requirements.txt
+python app.py
+```
 
-<img src="https://github.com/sssingh/pic-to-story/blob/main/assets/story-teller-app.png?raw=true" width="1000" height="450"/><br><br> 
+## App Details
 
-**Dark Mode Toggle**: Activate it to switch between dark and light mode.  
-**Image Selector**: Click on it to pick an image from your computer, or drag and drop an image onto it directly. Click the 'X' to clear the selection and resets the app.  
-**Story Genre Dropdown**: Select the desired story genre from the dropdown list.  
-**Story Writing Style Dropdown**: Select the desired story writing style from the dropdown list.  
-**Story Length (in words) Slider**: Adjust the slider to specify the desired length of the generated story.  
-**Creativity Index Slider**: Modify the slider to indicate the desired level of creativity for the generated story. A range between 0.5 and 0.7 is recommended. Setting it to 1.0 results in highly creative, sometimes amusing output.  
-**Generate Story Button**: Press this button to initiate the story generation process.  
-**Clear Button**: Clears all settings and resets the app to its default state.  
-**Story Text Area**: This is where the generated story will be displayed.  
-**Example Section Expander**: Click to expand the section and access built-in examples for quick testing. Simply select an example, click "Generate Story," and no image upload will be necessary.  
+- The app runs locally — performance depends on your hardware.
+- Dark mode is enabled by default. Use the **Dark Mode** toggle to switch to light mode.
+- Story length is capped at **200 words per request**.
+- If Ollama is not running, the app will return a connection error with a link to the Ollama setup page.
 
-The app includes pre-defined examples for your convenience, allowing you to quickly test its capabilities. Explore the examples section, choose one, and click "Generate Story" without needing to upload an image.
+## Controls
 
-<img src="https://github.com/sssingh/pic-to-story/blob/main/assets/story-teller-examples.png?raw=true" width="1000" height="350"/><br><br> 
+| Control | Description |
+|--------|-------------|
+| **Dark Mode Toggle** | Switches between dark and light mode. Dark mode is on by default. |
+| **Image Selector** | Upload an image from your computer or drag and drop. Click `X` to clear and reset. |
+| **Story Genre** | Choose from 14 genres: Adventure, Children Literature, Comedy, Drama, Fantasy, Fiction, Horror, Mystery, Non-fiction, Poetry, Romance, Satire, Surrealism, Urban Fantasy. |
+| **Story Writing Style** | Choose from 17 styles including Cinematic, Narrative, Symbolic, Experimental, Stream of Consciousness, and more. |
+| **Story Length Slider** | Set word count between 30 and 200 words (step: 10). |
+| **Creativity Index Slider** | Controls generation temperature (0.3–1.0). Range 0.5–0.7 recommended; 1.0 gives highly creative and sometimes surprising output. |
+| **Generate Story Button** | Starts the captioning + story generation pipeline. |
+| **Clear Button** | Resets image, sliders, and story output to defaults. |
+| **Story Text Area** | Displays the generated story. |
+| **Examples Section** | Click "Expand for examples" to load a pre-configured example. Selecting one auto-fills all inputs — no image upload needed. |
 
-# Project Source
-[👉 Visit GitHub Repo](https://github.com/sssingh/pic-to-story)
+## Built-in Examples
 
-# Contact Me
-[![email](https://img.shields.io/badge/Gmail-D14836?style=for-the-badge&logo=gmail&logoColor=white)](mailto:sunil@sunilssingh.me)
-[![twitter](https://img.shields.io/badge/twitter-1DA1F2?style=for-the-badge&logo=twitter&logoColor=white)](https://twitter.com/@thesssingh)
+Five themed examples are included under `assets/examples/`:
+
+| File | Theme | Genre | Style | Words | Creativity |
+|------|-------|-------|-------|-------|------------|
+| `nature-wolf.jpg` | Nature & Wildlife | Poetry | Symbolic | 80 | 0.8 |
+| `emotions-portrait.jpg` | People & Emotions | Fiction | Cinematic | 100 | 0.7 |
+| `fantasy-forest.jpg` | Fantasy & Mystical | Surrealism | Non-linear | 120 | 1.0 |
+| `city-night.jpg` | Urban & City Life | Horror | Narrative | 90 | 0.6 |
+| `adventure-mountain.jpg` | Adventure & Travel | Children Literature | Experimental | 70 | 0.9 |
+
+## Project Structure
+
+```
+The Storyteller Webapp/
+├── app.py            # Gradio UI and event wiring
+├── model.py          # Ollama vision + text pipeline
+├── config.py         # App settings, genre/style lists, theme
+├── mongo_utils.py    # In-memory access counter (MongoDB removed)
+├── style.css         # Button styles and footer visibility
+├── requirements.txt  # Python dependencies
+└── assets/
+    └── examples/     # Example images for the Examples section
+```
+
+## Tech Stack
+
+| Layer | Technology |
+|-------|-----------|
+| UI | [Gradio](https://gradio.app) 3.45 with Dracula Revamped theme |
+| Vision (Image → Caption) | `llava` via Ollama |
+| Text (Caption → Story) | `llama3` via Ollama |
+| Image processing | Pillow |
+| HTTP client | requests |
+
+## Project Source
+[👉 Visit GitHub Repo](https://github.com/AADHYA-A/Picture-to-Story-Generator)
+
+## Contact
 [![linkedin](https://img.shields.io/badge/linkedin-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/sssingh/)
-[![website](https://img.shields.io/badge/web_site-8B5BE8?style=for-the-badge&logo=ko-fi&logoColor=white)](https://sunilssingh.me)
-
