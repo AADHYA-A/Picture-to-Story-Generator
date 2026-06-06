@@ -1,0 +1,6 @@
+gradio==3.45.*
+requests==2.29.*
+langchain==0.1.*
+langchain-openai==0.0.*
+openai>=1.0.0
+pymongo[tls,srv]==4.4.*
